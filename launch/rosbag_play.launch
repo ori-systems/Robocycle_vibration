@@ -1,0 +1,12 @@
+<launch>
+    <node name="rosbag_vibration" pkg="imuvib_data" type="topic_subscribe.py" output="screen">
+        <param name="topic_name" value="/imu/data"/>
+    </node>
+
+    <node name="play_bags"
+      pkg="imuvib_data"
+      type="play_all_bags.sh"
+      output="screen"/>
+
+
+</launch>
