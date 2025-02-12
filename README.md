@@ -4,7 +4,7 @@
 
 ## 🚀 Overview
 This repository contains a ROS package that automates the playback of rosbag files, extracts IMU (Inertial Measurement Unit) data, and visualizes acceleration magnitudes using Matplotlib. The script supports multiple bag file playing.
-## Advance imu analysis
+## read more about Advance imu analysis
 [Advanced IMU Analysis](scripts/README.md)  
 ## 🔥 Features
 - ✅ **Rosbag Playback** –  play multiple rosbag files sequentially from script autorun.
