@@ -3,7 +3,7 @@
 # Enable error handling
 set -e
 
-rosbag play $(rospack find imuvib_data)/bags/*.bag --clock
+rosbag play $(rospack find vib_imu)/bags/*.bag --clock
 
 wait 
 
