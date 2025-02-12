@@ -3,7 +3,7 @@
 📌 **A ROS-based Python script for playing rosbag files, extracting IMU data, and visualizing vibration magnitudes in real-time.**
 
 ## 🚀 Overview
-This repository contains a ROS package that automates the playback of rosbag files, extracts IMU (Inertial Measurement Unit) data, and visualizes acceleration magnitudes using Matplotlib. The script supports multiple bag file selection.
+This repository contains a ROS package that automates the playback of rosbag files, extracts IMU (Inertial Measurement Unit) data, and visualizes acceleration magnitudes using Matplotlib. The script supports multiple bag file playing.
 
 ## 🔥 Features
 - ✅ **Rosbag Playback** –  play multiple rosbag files sequentially from script autorun.
@@ -57,10 +57,5 @@ roslaunch vib_data rosbag_play.launch
 2. **Play Rosbags** – Sequentially plays selected bags.
 3. **Extract IMU Data** – Reads acceleration from `/imu/data` and computes magnitude.
 4. **Plot Data** – Displays a real-time graph of IMU vibration patterns.
-
-  ```
-
-
-
 
 

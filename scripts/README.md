@@ -40,12 +40,12 @@ This repository contains a Python-based implementation of **IMU Vibration Analys
    - The script subscribes to `/imu/data`, extracting **acceleration values (X, Y, Z)**.
    - The magnitude of acceleration is computed as:
      
-     \[ \text{Magnitude} = \sqrt{x^2 + y^2 + z^2} \]
+     $$ \text{Magnitude} = \sqrt{x^2 + y^2 + z^2} $$
 
 2. **Preprocessing:**
    - **DC Offset Removal:** Eliminates static bias from the sensor:
      
-     \[ x_{adjusted} = x - \frac{1}{N} \sum x \]
+     $$ x_{\text{adjusted}} = x - \frac{1}{N} \sum x $$
    
    - **Hanning Window:** Reduces spectral leakage before FFT computation.
 
@@ -73,11 +73,3 @@ This repository contains a Python-based implementation of **IMU Vibration Analys
 📡 **IMU-Based Diagnostics** – Detect mechanical issues in bikes.  
 🔬 **Vibration Research** – Analyze different road conditions.  
 
-## Contributing
-Contributions are welcome! Feel free to fork the repository, create feature branches, and submit pull requests.
-
-## License
-This project is licensed under the **MIT License**.
-
-## Contact
-For inquiries, reach out via GitHub Issues or email **yourname@example.com**.
