@@ -3,6 +3,7 @@
 ## Overview
 This repository contains a Python-based implementation of **IMU Vibration Analysis** using a **Sliding Window FFT approach**. It processes real-time acceleration data from an **Inertial Measurement Unit (IMU)**, applies signal processing techniques, and visualizes vibration frequencies to analyze road conditions and cycling dynamics.
 
+
 ## Features
 ✅ **Real-time IMU data acquisition** using ROS  
 ✅ **Sliding Window FFT** for continuous frequency analysis  
@@ -19,22 +20,6 @@ This repository contains a Python-based implementation of **IMU Vibration Analys
 - `rospy`
 - `sensor_msgs`
 
-### **Setup Instructions**
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/yourusername/imu-vibration-analysis.git
-   cd imu-vibration-analysis
-   ```
-2. Install required dependencies:
-   ```sh
-   pip install numpy matplotlib rospy sensor_msgs
-   ```
-3. Ensure your IMU is publishing data on the ROS topic `/imu/data`.
-4. Run the script:
-   ```sh
-   python imu_vibration_analysis.py
-   ```
-
 ## How It Works
 1. **IMU Data Collection:**
    - The script subscribes to `/imu/data`, extracting **acceleration values (X, Y, Z)**.
@@ -45,7 +30,7 @@ This repository contains a Python-based implementation of **IMU Vibration Analys
 2. **Preprocessing:**
    - **DC Offset Removal:** Eliminates static bias from the sensor:
      
-     $$ x_{\text{adjusted}} = x - \frac{1}{N} \sum x $$
+     $$ \text{adjusted} = x - \frac{1}{N} \sum x $$
    
    - **Hanning Window:** Reduces spectral leakage before FFT computation.
 

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>vib_imu</name>
+  <version>0.1.0</version>
+  <description>ROS package for playing and visualizing IMU data from rosbag files</description>
+  <maintainer email="Nadia.khodaie@gmail.com">User</maintainer>
+  <license>MIT</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>rosbag</depend>
+</package>

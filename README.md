@@ -4,7 +4,8 @@
 
 ## 🚀 Overview
 This repository contains a ROS package that automates the playback of rosbag files, extracts IMU (Inertial Measurement Unit) data, and visualizes acceleration magnitudes using Matplotlib. The script supports multiple bag file playing.
-
+## Advance imu analysis
+[Advanced IMU Analysis](scripts/README.md)  
 ## 🔥 Features
 - ✅ **Rosbag Playback** –  play multiple rosbag files sequentially from script autorun.
 - ✅ **IMU Data Extraction** – Reads `/imu/data` topic and computes acceleration magnitude.
@@ -24,8 +25,8 @@ Ensure you have the following installed:
 
 ### **2. Clone the Repository**
 ```bash
-cd ~/catkin_ws/src
-git clone https://github.com/your-username/imuvib_data.git
+cd ~/catkin_ws/src/vib_imu
+git clone https://github.com/ori-systems/Robocycle_vibration.git
 cd ~/catkin_ws
 catkin_make
 source devel/setup.bash
@@ -33,8 +34,8 @@ source devel/setup.bash
 
 ### **3. Make Script Executable**
 ```bash
-chmod +x ~/catkin_ws/src/imuvib_data/scripts/rosbag_playing.py
-chmod +x ~/catkin_ws/src/imuvib_data/scripts/topic_subscribing.py
+chmod +x ~/catkin_ws/src/vib_imu/scripts/rosbag_playing.py
+chmod +x ~/catkin_ws/src/vib_imu/scripts/topic_subscribing.py
 ```
 
 ---
@@ -53,7 +54,6 @@ roslaunch vib_data rosbag_play.launch
 
 
 ## 🏗 How It Works
-1. **Select Rosbag Files** – Opens a file dialog for choosing `.bag` files.
 2. **Play Rosbags** – Sequentially plays selected bags.
 3. **Extract IMU Data** – Reads acceleration from `/imu/data` and computes magnitude.
 4. **Plot Data** – Displays a real-time graph of IMU vibration patterns.
