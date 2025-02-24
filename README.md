@@ -124,7 +124,7 @@ python rosbag_parsing.py  # Parses and visualizes vibration data
 
 ## Example Output
 ![ZED & Ellips Imu  Visualization](zed.png)
-![Stationary data Visualization](st.png)
+![Stationary data Visualization](stationary.png)
 
 ## Potential Applications
 🚴 **Cycling Comfort Analysis** – Identify road roughness.  
