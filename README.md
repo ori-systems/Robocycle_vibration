@@ -1,61 +1,111 @@
-# IMU Rosbag Data Visualization & Playback
+# IMU Vibration Analysis Using FFT
 
-📌 **A ROS-based Python script for playing rosbag files, extracting IMU data, and visualizing vibration magnitudes in real-time.**
+## Overview
+This repository contains a Python-based implementation of **IMU Vibration Analysis** using a **Sliding Window FFT approach**. The system processes real-time acceleration data from an **Inertial Measurement Unit (IMU)**, applies signal processing techniques, and visualizes vibration frequencies to analyze road conditions and cycling dynamics.
 
-## 🚀 Overview
-This repository contains a ROS package that automates the playback of rosbag files, extracts IMU (Inertial Measurement Unit) data, and visualizes acceleration magnitudes using Matplotlib. The script supports multiple bag file playing.
-## Read More About Advance Vibration Analysis
-[Advanced IMU Processing ](scripts/README.md)  
-## 🔥 Features
-- ✅ **Rosbag Playback** –  play multiple rosbag files sequentially from script autorun.
-- ✅ **IMU Data Extraction** – Reads `/imu/data` topic and computes acceleration magnitude.
-- ✅ **Real-time Plotting** – Uses Matplotlib to display IMU vibration patterns dynamically.
-- ✅ **Sliding Window Processing** – Maintains a fixed-size window (default: 500 samples).
----
+The project integrates **stationary and moving IMU data** to separate noise from actual vibrations, enhancing vibration analysis accuracy. It also includes tools for **rosbag parsing and playback** to analyze pre-recorded IMU data.
 
-## 🛠 Installation & Setup
+## Features
+✅ **Real-time IMU data acquisition** using ROS  
+✅ **Sliding Window FFT** for continuous frequency analysis  
+✅ **Hanning windowing & bandpass filtering** to improve frequency representation  
+✅ **DC Offset & Noise Removal** for accurate analysis  
+✅ **Highpass and Bandpass Filtering** to extract relevant frequency components  
+✅ **Integration of stationary IMU for enhanced vibration separation**  
+✅ **Rosbag playback & analysis for offline processing**  
+✅ **Live visualization of acceleration and frequency spectrum**  
 
-### **1. Prerequisites**
-Ensure you have the following installed:
-- **ROS (Robot Operating System)** – Noetic.
-- **Python 3** with required dependencies:
-  ```bash
-  pip install matplotlib rospy rosbag
-  ```
+## Installation
+### **Prerequisites**
+- Python 3.7+
+- ROS (Robot Operating System)
+- `numpy`
+- `matplotlib`
+- `rospy`
+- `sensor_msgs`
+- `scipy`
 
-### **2. Clone the Repository**
+### **Setup**
 ```bash
-cd ~/catkin_ws/src/vib_imu
-git clone https://github.com/ori-systems/Robocycle_vibration.git
-cd ~/catkin_ws
-catkin_make
-source devel/setup.bash
+# Clone this repository
+git clone https://github.com/your-repo/imu-vibration-analysis.git
+cd imu-vibration-analysis
+
+# Install dependencies
+pip install numpy matplotlib rospy sensor_msgs scipy
 ```
 
-### **3. Make Script Executable**
+## How It Works
+### **1. IMU Data Collection**
+- The system subscribes to `/imu/data` and `/front_zed/imu_data` topics, extracting **acceleration values (X, Y, Z)**.
+- The magnitude of acceleration is computed as:
+  
+  $$ \text{Magnitude} = \sqrt{x^2 + y^2 + z^2} $$
+
+### **2. Preprocessing**
+- **DC Offset Removal:** Eliminates static bias from the sensor:
+  
+  $$ \text{adjusted} = x - \frac{1}{N} \sum x $$
+  
+- **Highpass Filtering:** Removes low-frequency drift and slow movements:
+  
+  $$ H(s) = \frac{s}{s + \omega_c} $$
+  
+- **Bandpass Filtering:** Retains only relevant vibration frequencies within a given range (1Hz - 50Hz):
+  
+  $$ H(s) = \frac{s^2}{s^2 + \omega_c/Q s + \omega_c^2} $$
+  
+- **Hanning Windowing:** Reduces spectral leakage before FFT computation.
+
+### **3. FFT-Based Vibration Analysis**
+- Overlapping **windowed segments** are transformed into the frequency domain.
+- The averaged FFT spectrum is computed for more stable visualization.
+- The stationary IMU data is used as a reference to filter noise from moving IMU readings.
+
+### **4. Filtering Implementation in Different Scripts**
+- `topic_subscribe.py`: Uses **highpass and bandpass filtering** to clean acceleration signals before FFT analysis.
+- `stationary_imu.py`: Applies **bandpass filtering** to stationary IMU data before extracting baseline noise characteristics.
+- `rosbag_parsing.py`: Filters extracted IMU data from rosbags using **highpass and bandpass filters** before plotting vibration results.
+
+### **5. Rosbag Parsing and Playback**
+- The system supports **rosbag playback** for recorded IMU data.
+- `rosbag_parsing.py` extracts vibration data from a rosbag file and visualizes it.
+
+### **6. Visualization**
+- **Acceleration Magnitude Plot:** Displays real-time acceleration magnitude.
+- **FFT Spectrum Plot:** Shows dominant vibration frequencies.
+
+## Running the Scripts
+### **Live IMU Data Analysis**
 ```bash
-chmod +x ~/catkin_ws/src/vib_imu/scripts/rosbag_playing.py
-chmod +x ~/catkin_ws/src/vib_imu/scripts/topic_subscribing.py
+roslaunch imu_vibration_analysis rosbag_play.launch
+python topic_subscribe.py
 ```
 
----
-
-## ▶️ Usage
-### **Run the Node**
-Start ROS:
+### **Stationary vs. Moving IMU Comparison**
 ```bash
-roscore
-```
-Then, execute the node:
-```bash
-roslaunch vib_data rosbag_play.launch 
+roslaunch imu_vibration_analysis rosbag_play.launch
+python stationary_imu.py
 ```
 
+### **Rosbag Playback and Parsing**
+```bash
+bash play_all_bags.sh  # Plays all rosbags in the directory
+python rosbag_parsing.py  # Parses and visualizes vibration data
+```
 
+## Interpreting Results
+| **Frequency Range (Hz)** | **Interpretation** |
+|-----------------|------------------------------------|
+| 0 - 5 Hz       | Cyclist motion, frame flex        |
+| 5 - 20 Hz      | Road surface texture variations   |
+| 20 - 50 Hz     | Bike component vibrations         |
+| 50+ Hz         | High-frequency mechanical noise   |
 
-## 🏗 How It Works
-2. **Play Rosbags** – Sequentially plays selected bags.
-3. **Extract IMU Data** – Reads acceleration from `/imu/data` and computes magnitude.
-4. **Plot Data** – Displays a real-time graph of IMU vibration patterns.
+## Example Output
+![FFT Visualization](st.png,zed.png)
 
-
+## Potential Applications
+🚴 **Cycling Comfort Analysis** – Identify road roughness.  
+📡 **IMU-Based Diagnostics** – Detect mechanical issues in bikes.  
+🔬 **Vibration Research** – Analyze different road conditions.  
