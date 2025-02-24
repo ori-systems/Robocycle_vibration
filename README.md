@@ -47,11 +47,11 @@ pip install numpy matplotlib rospy sensor_msgs scipy
   
   $$ \text{adjusted} = x - \frac{1}{N} \sum x $$
   
-- **Highpass Filtering:** Removes low-frequency drift and slow movements:
+- **Highpass Filtering (Cutoff Frequency: 0.5 Hz):** Removes low-frequency drift and slow movements:
   
   $$ H(s) = \frac{s}{s + \omega_c} $$
   
-- **Bandpass Filtering:** Retains only relevant vibration frequencies within a given range (1Hz - 50Hz):
+- **Bandpass Filtering (Range: 1Hz - 50Hz):** Retains only relevant vibration frequencies:
   
   $$ H(s) = \frac{s^2}{s^2 + \omega_c/Q s + \omega_c^2} $$
   
@@ -62,16 +62,30 @@ pip install numpy matplotlib rospy sensor_msgs scipy
 - The averaged FFT spectrum is computed for more stable visualization.
 - The stationary IMU data is used as a reference to filter noise from moving IMU readings.
 
-### **4. Filtering Implementation in Different Scripts**
-- `topic_subscribe.py`: Uses **highpass and bandpass filtering** to clean acceleration signals before FFT analysis.
-- `stationary_imu.py`: Applies **bandpass filtering** to stationary IMU data before extracting baseline noise characteristics.
-- `rosbag_parsing.py`: Filters extracted IMU data from rosbags using **highpass and bandpass filters** before plotting vibration results.
+### **4. Comparison of `topic_subscribe.py` and `stationary_imu.py`**
+Both scripts process IMU data and apply signal filtering techniques, but they serve different purposes:
 
-### **5. Rosbag Parsing and Playback**
+| Feature | `topic_subscribe.py` | `stationary_imu.py` |
+|---------|---------------------|---------------------|
+| **IMU Sources** | Reads data from a moving IMU | Uses stationary IMU for baseline noise comparison |
+| **Filtering** | Applies **highpass (0.5Hz)** and **bandpass (1Hz - 50Hz)** filtering | Applies **bandpass (1Hz - 50Hz)** filtering, adjusting based on stationary noise |
+| **Purpose** | Analyzes real-time vibration while moving | Captures stationary IMU data first to subtract noise from moving IMU data |
+| **Noise Handling** | Filters high-frequency and low-frequency noise | Uses stationary IMU noise profile to refine vibration separation |
+| **Data Processing** | Directly processes live data from `/imu/data` | First processes stationary IMU data, then compares moving data |
+| **Output** | Real-time FFT of IMU vibrations | FFT after subtracting stationary noise from moving IMU |
+
+`topic_subscribe.py` is ideal for direct IMU-based vibration analysis, while `stationary_imu.py` improves accuracy by accounting for stationary noise before analyzing movement-based vibrations.
+
+### **5. Filtering Implementation in Different Scripts**
+- `topic_subscribe.py`: Uses **highpass (0.5Hz cutoff) and bandpass (1Hz - 50Hz) filtering** to clean acceleration signals before FFT analysis.
+- `stationary_imu.py`: Applies **bandpass filtering (1Hz - 50Hz) to stationary IMU data**, where the exact filtering values depend on the stationary IMU's noise characteristics before extracting baseline noise.
+- `rosbag_parsing.py`: Filters extracted IMU data from rosbags using **highpass (0.5Hz) and bandpass (1Hz - 50Hz) filters** before plotting vibration results.
+
+### **6. Rosbag Parsing and Playback**
 - The system supports **rosbag playback** for recorded IMU data.
 - `rosbag_parsing.py` extracts vibration data from a rosbag file and visualizes it.
 
-### **6. Visualization**
+### **7. Visualization**
 - **Acceleration Magnitude Plot:** Displays real-time acceleration magnitude.
 - **FFT Spectrum Plot:** Shows dominant vibration frequencies.
 
@@ -103,9 +117,15 @@ python rosbag_parsing.py  # Parses and visualizes vibration data
 | 50+ Hz         | High-frequency mechanical noise   |
 
 ## Example Output
-![FFT Visualization](st.png,zed.png)
+![FFT Visualization](zed.png,st.png)
 
 ## Potential Applications
 🚴 **Cycling Comfort Analysis** – Identify road roughness.  
 📡 **IMU-Based Diagnostics** – Detect mechanical issues in bikes.  
 🔬 **Vibration Research** – Analyze different road conditions.  
+
+## License
+This project is licensed under the MIT License.
+
+---
+Developed for IMU-based cycling vibration analysis and research.
