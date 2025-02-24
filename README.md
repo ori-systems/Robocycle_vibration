@@ -123,7 +123,8 @@ python rosbag_parsing.py  # Parses and visualizes vibration data
 | 50+ Hz         | High-frequency mechanical noise   |
 
 ## Example Output
-![FFT Visualization](zed.png)
+![ZED & Ellips Imu  Visualization](zed.png)
+![Stationary data Visualization](st.png)
 
 ## Potential Applications
 🚴 **Cycling Comfort Analysis** – Identify road roughness.  
