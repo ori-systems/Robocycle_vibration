@@ -45,15 +45,15 @@ pip install numpy matplotlib rospy sensor_msgs scipy
 ### **2. Preprocessing**
 - **DC Offset Removal:** Eliminates static bias from the sensor:
   
-  $$ \text{adjusted} = x - \frac{1}{N} \sum x $$
+  $$ \text{adjusted} = x - {\frac{1}{N} \sum x} $$
   
 - **Highpass Filtering (Cutoff Frequency: 0.5 Hz):** Removes low-frequency drift and slow movements:
   
-  $$ H(s) = \frac{s}{s + \omega_c} $$
+  $$ H(s) = {\frac{s}{s + \omega_c}} $$
   
 - **Bandpass Filtering (Range: 1Hz - 50Hz):** Retains only relevant vibration frequencies:
   
-  $$ H(s) = \frac{s^2}{s^2 + \omega_c/Q s + \omega_c^2} $$
+  $$ H(s) = {\frac{s^2}{s^2 + \omega_c/Q s + \omega_c^2}} $$
   
 - **Hanning Windowing:** Reduces spectral leakage before FFT computation.
 
