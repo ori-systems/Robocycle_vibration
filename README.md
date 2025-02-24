@@ -130,8 +130,3 @@ python rosbag_parsing.py  # Parses and visualizes vibration data
 📡 **IMU-Based Diagnostics** – Detect mechanical issues in bikes.  
 🔬 **Vibration Research** – Analyze different road conditions.  
 
-## License
-This project is licensed under the MIT License.
-
----
-Developed for IMU-based cycling vibration analysis and research.
